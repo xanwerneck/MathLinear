@@ -1,0 +1,12 @@
+-MATHLINEAR-
+
+Sobre o Projeto:
+INÍCIO: 30/03/2014
+DESCRIÇÃO:
+- Projeto de código aberto destinado aos estudantes de Álgebra Linear;
+- Se tiver alguma dica, ou tenha encontrado algum erro, submeta a correção pelo GITHUB ou comunique através do email do autor;
+
+Sobre o Autor:
+Alexandre Werneck - Estudante de Sistemas de Informação na PUC-RIO
+CONTATO: xanwerneck@gmail.com
+
