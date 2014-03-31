@@ -31,8 +31,8 @@ if($_POST){
 		$k++;
 	}
 
-	//echo '<pre>';
-	//var_dump($elementos);
+	echo '<pre>';
+	var_dump($elementos);
 
 }
 
@@ -70,11 +70,13 @@ function Operacoes($elementos,$colunas,$k){
 
 	$operador = 0;
 	for ($j=1; $j <= $colunas; $j++) { 
-		if($elementos[$k+1][$j]!=0){
+		if($elementos[$k+1][$j]!=0 && $operador == 0){
 			$operador = $j;
+			$cont = $elementos[$k+1][$operador];
 		}
 		if($operador != 0){
-			$elementos[$k+1][$j] = $elementos[$k+1][$j] - ($elementos[$k+1][$operador] * ($elementos[$k][$j]));
+			$tmp = $elementos[$k][$j] * $cont;
+			$elementos[$k+1][$j] = $elementos[$k+1][$j] - $tmp;
 		}
 	}
 	return $elementos;
