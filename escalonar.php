@@ -17,28 +17,64 @@ if($_POST){
 	$elementos = $tmp[1];
 	$linhas    = $tmp[0];
 	
-	while ($k <= $linhas) {
+	while ($k < $linhas) {
 
-		$tmp = Operacoes($elementos,$linhas,$colunas,$k);
+		$elementos = TrocaLinhas($elementos, $linhas, $colunas);
+
+		$elementos = Operacoes($elementos,$colunas,$k);
+
+		$tmp       = EliminaLinhasNulas($elementos,$linhas,$colunas);
+		$elementos = $tmp[1];
+		$linhas    = $tmp[0];
 
 
 		$k++;
 	}
 
 	//echo '<pre>';
-	//var_dump($tmp);
+	//var_dump($elementos);
 
 }
 
-function Operacoes($elementos,$linhas,$colunas,$k){
-
-	for ($i=$k+1; $i <= $linhas; $i++) { 
-		for ($j=1; $j < $colunas; $j++) { 
-			$c = 1;
-			while($elementos[$i][$j]!=0){
-				$elementos[$i][$j] = $elementos[$i][$j] - ($c * ($elementos[$i-1][$j]));
-				$c++;
+function TrocaLinhas($elementos, $linhas, $colunas){
+	$tmp = array();
+	for ($i=1; $i <= $linhas; $i++) { 
+		$num_zeros = 0;
+		for ($j=1; $j <= $colunas; $j++) { 
+			if($elementos[$i][$j]==0){
+				$num_zeros++;
+			}else{
+				break;
 			}
+		}
+		if($num_zeros == $i){
+			if( $elementos[$num_zeros+1] != NULL){
+				$tmp = $elementos[$i];
+				$elementos[$i] = $elementos[$num_zeros+1];
+				$elementos[$num_zeros+1] = $tmp;
+			}
+		}
+		if($num_zeros > $i){
+			if( $elementos[$num_zeros] != NULL){
+				$tmp = $elementos[$i];
+				$elementos[$i] = $elementos[$num_zeros];
+				$elementos[$num_zeros] = $tmp;
+			}
+		}
+	}
+	return $elementos;
+
+}
+
+function Operacoes($elementos,$colunas,$k){
+
+	$operador = 0;
+	for ($j=1; $j <= $colunas; $j++) { 
+		if($elementos[$k+1][$j]!=0){
+			$operador = $j;
+		}
+		if($operador != 0){
+			$elementos[$k+1][$j] = $elementos[$k+1][$j] - ($elementos[$k+1][$operador] * ($elementos[$k][$j]));
 		}
 	}
 	return $elementos;
@@ -59,9 +95,19 @@ function EliminaLinhasNulas($elementos,$linhas,$colunas){
 		}
 	}
 
-	$ret[0] = $count;
+	$ret[0] = $linhas - $count;
 	$ret[1] = array_values(array_filter($elementos));
 
+	$ret[1] = reorgArray($ret[1]);
+
+	return $ret;
+}
+
+function reorgArray($elem){
+	$ret = array();
+	for ($i=0; $i < count($elem); $i++) { 
+		$ret[$i+1] = $elem[$i];
+	}
 	return $ret;
 }
 
